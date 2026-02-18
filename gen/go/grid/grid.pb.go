@@ -4,7 +4,7 @@
 // 	protoc        v3.21.12
 // source: grid/grid.proto
 
-package gridv1
+package gridv2
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -697,7 +697,7 @@ const file_grid_grid_proto_rawDesc = "" +
 	"\vGridService\x124\n" +
 	"\x04Work\x12\x13.grid.WorkerMessage\x1a\x13.grid.MasterMessage(\x010\x01\x12(\n" +
 	"\aAddTask\x12\n" +
-	".grid.Task\x1a\x11.grid.TaskCreatedB\x10Z\x0egrid.v1;gridv1b\x06proto3"
+	".grid.Task\x1a\x11.grid.TaskCreatedB\x10Z\x0egrid.v2;gridv2b\x06proto3"
 
 var (
 	file_grid_grid_proto_rawDescOnce sync.Once

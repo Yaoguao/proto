@@ -4,7 +4,7 @@
 // - protoc             v3.21.12
 // source: grid/grid.proto
 
-package gridv1
+package gridv2
 
 import (
 	context "context"

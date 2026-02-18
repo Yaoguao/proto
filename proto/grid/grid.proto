@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package grid;
 
-option go_package = "grid.v1;gridv1";
+option go_package = "grid.v2;gridv2";
 
 
 service GridService {
