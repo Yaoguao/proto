@@ -6,21 +6,80 @@ option go_package = "grid.v1;gridv1";
 
 
 service GridService {
-  rpc getSubTask(stream TaskRequest) returns (stream SubTaskRequest);
-  rpc addTask(Task) returns (TaskRequest);
-}
+  rpc Work(stream WorkerMessage) returns (stream MasterMessage);
 
-message TaskRequest{
-  int32 id = 1;
+  rpc AddTask(Task) returns (TaskCreated);
 }
 
 
-message SubTaskRequest{
-  int32 id = 1;
-  int32 taskId = 2;
-  string text = 3;
+// CLIENT → MASTER
+
+
+message Task {
+  Graph graph = 1;
+  repeated int32 taxi_nodes = 2;
+  repeated int32 passenger_nodes = 3;
 }
 
-message Task{
-  string text = 1;
+message TaskCreated {
+  int64 task_id = 1;
 }
+
+// GRAPH STRUCTURE
+
+message Graph {
+  int32 nodes = 1;
+  repeated Edge edges = 2;
+}
+
+message Edge {
+  int32 from = 1;
+  int32 to = 2;
+  int32 weight = 3;
+}
+
+
+// WORKER <-> MASTER STREAM
+
+
+message WorkerMessage {
+  oneof payload {
+    WorkerReady ready = 1;
+    SubTaskResult result = 2;
+    Heartbeat heartbeat = 3;
+  }
+}
+
+message MasterMessage {
+  oneof payload {
+    SubTask subtask = 1;
+    NoTask no_task = 2;
+  }
+}
+
+
+// WORKER → MASTER
+
+
+message WorkerReady {}
+
+message Heartbeat {}
+
+message SubTaskResult {
+  int64 task_id = 1;
+  int32 taxi_node = 2;
+  repeated int32 costs = 3;
+}
+
+
+// MASTER → WORKER
+
+
+message SubTask {
+  int64 task_id = 1;
+  int32 taxi_node = 2;
+  Graph graph = 3;
+  repeated int32 passenger_nodes = 4;
+}
+
+message NoTask {}
