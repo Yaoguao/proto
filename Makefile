@@ -6,7 +6,7 @@ GO_OUT_DIR := gen/go
 .PHONY: generate
 generate:
 	protoc -I $(PROTO_DIR) \
-		$(PROTO_DIR)/sso/sso.proto \
+		$(PROTO_DIR)/grid/grid.proto \
 		--go_out=$(GO_OUT_DIR) --go_opt=paths=source_relative \
 		--go-grpc_out=$(GO_OUT_DIR) --go-grpc_opt=paths=source_relative
 
