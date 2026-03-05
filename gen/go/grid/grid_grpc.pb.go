@@ -19,16 +19,18 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GridService_Work_FullMethodName    = "/grid.GridService/Work"
-	GridService_AddTask_FullMethodName = "/grid.GridService/AddTask"
+	GridService_GetSubTask_FullMethodName   = "/grid.GridService/GetSubTask"
+	GridService_AddTask_FullMethodName      = "/grid.GridService/AddTask"
+	GridService_SubmitResult_FullMethodName = "/grid.GridService/SubmitResult"
 )
 
 // GridServiceClient is the client API for GridService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type GridServiceClient interface {
-	Work(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[WorkerMessage, MasterMessage], error)
-	AddTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*TaskCreated, error)
+	GetSubTask(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[TaskRequest, SubTask], error)
+	AddTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*TaskRequest, error)
+	SubmitResult(ctx context.Context, in *SubTaskResult, opts ...grpc.CallOption) (*Ack, error)
 }
 
 type gridServiceClient struct {
@@ -39,23 +41,33 @@ func NewGridServiceClient(cc grpc.ClientConnInterface) GridServiceClient {
 	return &gridServiceClient{cc}
 }
 
-func (c *gridServiceClient) Work(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[WorkerMessage, MasterMessage], error) {
+func (c *gridServiceClient) GetSubTask(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[TaskRequest, SubTask], error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	stream, err := c.cc.NewStream(ctx, &GridService_ServiceDesc.Streams[0], GridService_Work_FullMethodName, cOpts...)
+	stream, err := c.cc.NewStream(ctx, &GridService_ServiceDesc.Streams[0], GridService_GetSubTask_FullMethodName, cOpts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &grpc.GenericClientStream[WorkerMessage, MasterMessage]{ClientStream: stream}
+	x := &grpc.GenericClientStream[TaskRequest, SubTask]{ClientStream: stream}
 	return x, nil
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type GridService_WorkClient = grpc.BidiStreamingClient[WorkerMessage, MasterMessage]
+type GridService_GetSubTaskClient = grpc.BidiStreamingClient[TaskRequest, SubTask]
 
-func (c *gridServiceClient) AddTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*TaskCreated, error) {
+func (c *gridServiceClient) AddTask(ctx context.Context, in *Task, opts ...grpc.CallOption) (*TaskRequest, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TaskCreated)
+	out := new(TaskRequest)
 	err := c.cc.Invoke(ctx, GridService_AddTask_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *gridServiceClient) SubmitResult(ctx context.Context, in *SubTaskResult, opts ...grpc.CallOption) (*Ack, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(Ack)
+	err := c.cc.Invoke(ctx, GridService_SubmitResult_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -66,8 +78,9 @@ func (c *gridServiceClient) AddTask(ctx context.Context, in *Task, opts ...grpc.
 // All implementations must embed UnimplementedGridServiceServer
 // for forward compatibility.
 type GridServiceServer interface {
-	Work(grpc.BidiStreamingServer[WorkerMessage, MasterMessage]) error
-	AddTask(context.Context, *Task) (*TaskCreated, error)
+	GetSubTask(grpc.BidiStreamingServer[TaskRequest, SubTask]) error
+	AddTask(context.Context, *Task) (*TaskRequest, error)
+	SubmitResult(context.Context, *SubTaskResult) (*Ack, error)
 	mustEmbedUnimplementedGridServiceServer()
 }
 
@@ -78,11 +91,14 @@ type GridServiceServer interface {
 // pointer dereference when methods are called.
 type UnimplementedGridServiceServer struct{}
 
-func (UnimplementedGridServiceServer) Work(grpc.BidiStreamingServer[WorkerMessage, MasterMessage]) error {
-	return status.Error(codes.Unimplemented, "method Work not implemented")
+func (UnimplementedGridServiceServer) GetSubTask(grpc.BidiStreamingServer[TaskRequest, SubTask]) error {
+	return status.Error(codes.Unimplemented, "method GetSubTask not implemented")
 }
-func (UnimplementedGridServiceServer) AddTask(context.Context, *Task) (*TaskCreated, error) {
+func (UnimplementedGridServiceServer) AddTask(context.Context, *Task) (*TaskRequest, error) {
 	return nil, status.Error(codes.Unimplemented, "method AddTask not implemented")
+}
+func (UnimplementedGridServiceServer) SubmitResult(context.Context, *SubTaskResult) (*Ack, error) {
+	return nil, status.Error(codes.Unimplemented, "method SubmitResult not implemented")
 }
 func (UnimplementedGridServiceServer) mustEmbedUnimplementedGridServiceServer() {}
 func (UnimplementedGridServiceServer) testEmbeddedByValue()                     {}
@@ -105,12 +121,12 @@ func RegisterGridServiceServer(s grpc.ServiceRegistrar, srv GridServiceServer) {
 	s.RegisterService(&GridService_ServiceDesc, srv)
 }
 
-func _GridService_Work_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(GridServiceServer).Work(&grpc.GenericServerStream[WorkerMessage, MasterMessage]{ServerStream: stream})
+func _GridService_GetSubTask_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(GridServiceServer).GetSubTask(&grpc.GenericServerStream[TaskRequest, SubTask]{ServerStream: stream})
 }
 
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
-type GridService_WorkServer = grpc.BidiStreamingServer[WorkerMessage, MasterMessage]
+type GridService_GetSubTaskServer = grpc.BidiStreamingServer[TaskRequest, SubTask]
 
 func _GridService_AddTask_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Task)
@@ -130,6 +146,24 @@ func _GridService_AddTask_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _GridService_SubmitResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubTaskResult)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GridServiceServer).SubmitResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GridService_SubmitResult_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GridServiceServer).SubmitResult(ctx, req.(*SubTaskResult))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GridService_ServiceDesc is the grpc.ServiceDesc for GridService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -141,11 +175,15 @@ var GridService_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "AddTask",
 			Handler:    _GridService_AddTask_Handler,
 		},
+		{
+			MethodName: "SubmitResult",
+			Handler:    _GridService_SubmitResult_Handler,
+		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
-			StreamName:    "Work",
-			Handler:       _GridService_Work_Handler,
+			StreamName:    "GetSubTask",
+			Handler:       _GridService_GetSubTask_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
