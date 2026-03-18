@@ -486,12 +486,14 @@ const file_grid_grid_proto_rawDesc = "" +
 	"\ttaxi_node\x18\x03 \x01(\x05R\btaxiNode\x12\x14\n" +
 	"\x05costs\x18\x04 \x03(\x05R\x05costs\"\x15\n" +
 	"\x03Ack\x12\x0e\n" +
-	"\x02ok\x18\x01 \x01(\bR\x02ok2\x9b\x01\n" +
-	"\vGridService\x122\n" +
-	"\n" +
-	"GetSubTask\x12\x11.grid.TaskRequest\x1a\r.grid.SubTask(\x010\x01\x12(\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok2\xc5\x01\n" +
+	"\vGridService\x12(\n" +
 	"\aAddTask\x12\n" +
-	".grid.Task\x1a\x11.grid.TaskRequest\x12.\n" +
+	".grid.Task\x1a\x11.grid.TaskRequest\x12(\n" +
+	"\aGetTask\x12\x11.grid.TaskRequest\x1a\n" +
+	".grid.Task\x122\n" +
+	"\n" +
+	"GetSubTask\x12\x11.grid.TaskRequest\x1a\r.grid.SubTask(\x010\x01\x12.\n" +
 	"\fSubmitResult\x12\x13.grid.SubTaskResult\x1a\t.grid.AckB\x10Z\x0egrid.v2;gridv2b\x06proto3"
 
 var (
@@ -520,14 +522,16 @@ var file_grid_grid_proto_depIdxs = []int32{
 	3, // 0: grid.SubTask.graph:type_name -> grid.Graph
 	3, // 1: grid.Task.graph:type_name -> grid.Graph
 	4, // 2: grid.Graph.edges:type_name -> grid.Edge
-	0, // 3: grid.GridService.GetSubTask:input_type -> grid.TaskRequest
-	2, // 4: grid.GridService.AddTask:input_type -> grid.Task
-	5, // 5: grid.GridService.SubmitResult:input_type -> grid.SubTaskResult
-	1, // 6: grid.GridService.GetSubTask:output_type -> grid.SubTask
+	2, // 3: grid.GridService.AddTask:input_type -> grid.Task
+	0, // 4: grid.GridService.GetTask:input_type -> grid.TaskRequest
+	0, // 5: grid.GridService.GetSubTask:input_type -> grid.TaskRequest
+	5, // 6: grid.GridService.SubmitResult:input_type -> grid.SubTaskResult
 	0, // 7: grid.GridService.AddTask:output_type -> grid.TaskRequest
-	6, // 8: grid.GridService.SubmitResult:output_type -> grid.Ack
-	6, // [6:9] is the sub-list for method output_type
-	3, // [3:6] is the sub-list for method input_type
+	2, // 8: grid.GridService.GetTask:output_type -> grid.Task
+	1, // 9: grid.GridService.GetSubTask:output_type -> grid.SubTask
+	6, // 10: grid.GridService.SubmitResult:output_type -> grid.Ack
+	7, // [7:11] is the sub-list for method output_type
+	3, // [3:7] is the sub-list for method input_type
 	3, // [3:3] is the sub-list for extension type_name
 	3, // [3:3] is the sub-list for extension extendee
 	0, // [0:3] is the sub-list for field type_name

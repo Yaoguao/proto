@@ -6,9 +6,11 @@ option go_package = "grid.v2;gridv2";
 
 
 service GridService {
-  rpc GetSubTask(stream TaskRequest) returns (stream SubTask);
-
   rpc AddTask(Task) returns (TaskRequest);
+
+  rpc GetTask(TaskRequest) returns (Task);
+
+  rpc GetSubTask(stream TaskRequest) returns (stream SubTask);
 
   rpc SubmitResult(SubTaskResult) returns (Ack);
 
