@@ -21,27 +21,26 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type TaskRequest struct {
+type SubscribeRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaskId        int64                  `protobuf:"varint,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *TaskRequest) Reset() {
-	*x = TaskRequest{}
+func (x *SubscribeRequest) Reset() {
+	*x = SubscribeRequest{}
 	mi := &file_grid_grid_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *TaskRequest) String() string {
+func (x *SubscribeRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*TaskRequest) ProtoMessage() {}
+func (*SubscribeRequest) ProtoMessage() {}
 
-func (x *TaskRequest) ProtoReflect() protoreflect.Message {
+func (x *SubscribeRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_grid_grid_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,119 +52,12 @@ func (x *TaskRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use TaskRequest.ProtoReflect.Descriptor instead.
-func (*TaskRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use SubscribeRequest.ProtoReflect.Descriptor instead.
+func (*SubscribeRequest) Descriptor() ([]byte, []int) {
 	return file_grid_grid_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *TaskRequest) GetTaskId() int64 {
-	if x != nil {
-		return x.TaskId
-	}
-	return 0
-}
-
-type SubTask struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Id             int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	TaskId         int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	Graph          *Graph                 `protobuf:"bytes,3,opt,name=graph,proto3" json:"graph,omitempty"`
-	TaxiNodes      []int32                `protobuf:"varint,4,rep,packed,name=taxi_nodes,json=taxiNodes,proto3" json:"taxi_nodes,omitempty"`
-	PassengerNodes []int32                `protobuf:"varint,5,rep,packed,name=passenger_nodes,json=passengerNodes,proto3" json:"passenger_nodes,omitempty"`
-	Dimension      int32                  `protobuf:"varint,6,opt,name=dimension,proto3" json:"dimension,omitempty"`
-	StartIndex     int64                  `protobuf:"varint,7,opt,name=start_index,json=startIndex,proto3" json:"start_index,omitempty"`
-	Count          int64                  `protobuf:"varint,8,opt,name=count,proto3" json:"count,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
-}
-
-func (x *SubTask) Reset() {
-	*x = SubTask{}
-	mi := &file_grid_grid_proto_msgTypes[1]
-	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-	ms.StoreMessageInfo(mi)
-}
-
-func (x *SubTask) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*SubTask) ProtoMessage() {}
-
-func (x *SubTask) ProtoReflect() protoreflect.Message {
-	mi := &file_grid_grid_proto_msgTypes[1]
-	if x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use SubTask.ProtoReflect.Descriptor instead.
-func (*SubTask) Descriptor() ([]byte, []int) {
-	return file_grid_grid_proto_rawDescGZIP(), []int{1}
-}
-
-func (x *SubTask) GetId() int64 {
-	if x != nil {
-		return x.Id
-	}
-	return 0
-}
-
-func (x *SubTask) GetTaskId() int64 {
-	if x != nil {
-		return x.TaskId
-	}
-	return 0
-}
-
-func (x *SubTask) GetGraph() *Graph {
-	if x != nil {
-		return x.Graph
-	}
-	return nil
-}
-
-func (x *SubTask) GetTaxiNodes() []int32 {
-	if x != nil {
-		return x.TaxiNodes
-	}
-	return nil
-}
-
-func (x *SubTask) GetPassengerNodes() []int32 {
-	if x != nil {
-		return x.PassengerNodes
-	}
-	return nil
-}
-
-func (x *SubTask) GetDimension() int32 {
-	if x != nil {
-		return x.Dimension
-	}
-	return 0
-}
-
-func (x *SubTask) GetStartIndex() int64 {
-	if x != nil {
-		return x.StartIndex
-	}
-	return 0
-}
-
-func (x *SubTask) GetCount() int64 {
-	if x != nil {
-		return x.Count
-	}
-	return 0
-}
-
-type Task struct {
+type TaskTaxiPassenger struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Graph          *Graph                 `protobuf:"bytes,1,opt,name=graph,proto3" json:"graph,omitempty"`
 	TaxiNodes      []int32                `protobuf:"varint,2,rep,packed,name=taxi_nodes,json=taxiNodes,proto3" json:"taxi_nodes,omitempty"`
@@ -174,21 +66,21 @@ type Task struct {
 	sizeCache      protoimpl.SizeCache
 }
 
-func (x *Task) Reset() {
-	*x = Task{}
-	mi := &file_grid_grid_proto_msgTypes[2]
+func (x *TaskTaxiPassenger) Reset() {
+	*x = TaskTaxiPassenger{}
+	mi := &file_grid_grid_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *Task) String() string {
+func (x *TaskTaxiPassenger) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*Task) ProtoMessage() {}
+func (*TaskTaxiPassenger) ProtoMessage() {}
 
-func (x *Task) ProtoReflect() protoreflect.Message {
-	mi := &file_grid_grid_proto_msgTypes[2]
+func (x *TaskTaxiPassenger) ProtoReflect() protoreflect.Message {
+	mi := &file_grid_grid_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -199,26 +91,26 @@ func (x *Task) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use Task.ProtoReflect.Descriptor instead.
-func (*Task) Descriptor() ([]byte, []int) {
-	return file_grid_grid_proto_rawDescGZIP(), []int{2}
+// Deprecated: Use TaskTaxiPassenger.ProtoReflect.Descriptor instead.
+func (*TaskTaxiPassenger) Descriptor() ([]byte, []int) {
+	return file_grid_grid_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *Task) GetGraph() *Graph {
+func (x *TaskTaxiPassenger) GetGraph() *Graph {
 	if x != nil {
 		return x.Graph
 	}
 	return nil
 }
 
-func (x *Task) GetTaxiNodes() []int32 {
+func (x *TaskTaxiPassenger) GetTaxiNodes() []int32 {
 	if x != nil {
 		return x.TaxiNodes
 	}
 	return nil
 }
 
-func (x *Task) GetPassengerNodes() []int32 {
+func (x *TaskTaxiPassenger) GetPassengerNodes() []int32 {
 	if x != nil {
 		return x.PassengerNodes
 	}
@@ -235,7 +127,7 @@ type Graph struct {
 
 func (x *Graph) Reset() {
 	*x = Graph{}
-	mi := &file_grid_grid_proto_msgTypes[3]
+	mi := &file_grid_grid_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -247,7 +139,7 @@ func (x *Graph) String() string {
 func (*Graph) ProtoMessage() {}
 
 func (x *Graph) ProtoReflect() protoreflect.Message {
-	mi := &file_grid_grid_proto_msgTypes[3]
+	mi := &file_grid_grid_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -260,7 +152,7 @@ func (x *Graph) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Graph.ProtoReflect.Descriptor instead.
 func (*Graph) Descriptor() ([]byte, []int) {
-	return file_grid_grid_proto_rawDescGZIP(), []int{3}
+	return file_grid_grid_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *Graph) GetNodes() int32 {
@@ -288,7 +180,7 @@ type Edge struct {
 
 func (x *Edge) Reset() {
 	*x = Edge{}
-	mi := &file_grid_grid_proto_msgTypes[4]
+	mi := &file_grid_grid_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -300,7 +192,7 @@ func (x *Edge) String() string {
 func (*Edge) ProtoMessage() {}
 
 func (x *Edge) ProtoReflect() protoreflect.Message {
-	mi := &file_grid_grid_proto_msgTypes[4]
+	mi := &file_grid_grid_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -313,7 +205,7 @@ func (x *Edge) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Edge.ProtoReflect.Descriptor instead.
 func (*Edge) Descriptor() ([]byte, []int) {
-	return file_grid_grid_proto_rawDescGZIP(), []int{4}
+	return file_grid_grid_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *Edge) GetFrom() int32 {
@@ -337,19 +229,192 @@ func (x *Edge) GetWeight() int32 {
 	return 0
 }
 
-type SubTaskResult struct {
+type TaskRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	TaskId        int64                  `protobuf:"varint,1,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TaskRequest) Reset() {
+	*x = TaskRequest{}
+	mi := &file_grid_grid_proto_msgTypes[4]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TaskRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TaskRequest) ProtoMessage() {}
+
+func (x *TaskRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_grid_grid_proto_msgTypes[4]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TaskRequest.ProtoReflect.Descriptor instead.
+func (*TaskRequest) Descriptor() ([]byte, []int) {
+	return file_grid_grid_proto_rawDescGZIP(), []int{4}
+}
+
+func (x *TaskRequest) GetTaskId() int64 {
+	if x != nil {
+		return x.TaskId
+	}
+	return 0
+}
+
+type Task struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	TaskId        int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	TaxiNode      int32                  `protobuf:"varint,3,opt,name=taxi_node,json=taxiNode,proto3" json:"taxi_node,omitempty"`
-	Costs         []int32                `protobuf:"varint,4,rep,packed,name=costs,proto3" json:"costs,omitempty"`
+	JsonBase      []byte                 `protobuf:"bytes,2,opt,name=jsonBase,proto3" json:"jsonBase,omitempty"` // json с базовым задание, там и полный граф и все ноды
+	Binary        []byte                 `protobuf:"bytes,3,opt,name=binary,proto3" json:"binary,omitempty"`     // бинарник с кодом выполнения задачи
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *Task) Reset() {
+	*x = Task{}
+	mi := &file_grid_grid_proto_msgTypes[5]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *Task) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Task) ProtoMessage() {}
+
+func (x *Task) ProtoReflect() protoreflect.Message {
+	mi := &file_grid_grid_proto_msgTypes[5]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Task.ProtoReflect.Descriptor instead.
+func (*Task) Descriptor() ([]byte, []int) {
+	return file_grid_grid_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Task) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *Task) GetJsonBase() []byte {
+	if x != nil {
+		return x.JsonBase
+	}
+	return nil
+}
+
+func (x *Task) GetBinary() []byte {
+	if x != nil {
+		return x.Binary
+	}
+	return nil
+}
+
+type SubTask struct {
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Id     int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TaskId int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	// в этом json находится под задача, она без графа, что бы снизить загрузку. Чисто вол-во комбинация и батчи
+	// что в нем:
+	// int32 dimension;
+	//
+	// int64 start_index;
+	// int64 count ;
+	JsonSubTask   []byte `protobuf:"bytes,3,opt,name=jsonSubTask,proto3" json:"jsonSubTask,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SubTask) Reset() {
+	*x = SubTask{}
+	mi := &file_grid_grid_proto_msgTypes[6]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SubTask) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SubTask) ProtoMessage() {}
+
+func (x *SubTask) ProtoReflect() protoreflect.Message {
+	mi := &file_grid_grid_proto_msgTypes[6]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SubTask.ProtoReflect.Descriptor instead.
+func (*SubTask) Descriptor() ([]byte, []int) {
+	return file_grid_grid_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *SubTask) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *SubTask) GetTaskId() int64 {
+	if x != nil {
+		return x.TaskId
+	}
+	return 0
+}
+
+func (x *SubTask) GetJsonSubTask() []byte {
+	if x != nil {
+		return x.JsonSubTask
+	}
+	return nil
+}
+
+type SubTaskResult struct {
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Id     int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TaskId int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	// туу тоже возращаем json так как распределятор нечего не знает о задаче
+	// что в нем:
+	// int32 taxi_node = 3;
+	// repeated int32 costs = 4;
+	JsonSubTask   []byte `protobuf:"bytes,3,opt,name=jsonSubTask,proto3" json:"jsonSubTask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *SubTaskResult) Reset() {
 	*x = SubTaskResult{}
-	mi := &file_grid_grid_proto_msgTypes[5]
+	mi := &file_grid_grid_proto_msgTypes[7]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -361,7 +426,7 @@ func (x *SubTaskResult) String() string {
 func (*SubTaskResult) ProtoMessage() {}
 
 func (x *SubTaskResult) ProtoReflect() protoreflect.Message {
-	mi := &file_grid_grid_proto_msgTypes[5]
+	mi := &file_grid_grid_proto_msgTypes[7]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -374,7 +439,7 @@ func (x *SubTaskResult) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use SubTaskResult.ProtoReflect.Descriptor instead.
 func (*SubTaskResult) Descriptor() ([]byte, []int) {
-	return file_grid_grid_proto_rawDescGZIP(), []int{5}
+	return file_grid_grid_proto_rawDescGZIP(), []int{7}
 }
 
 func (x *SubTaskResult) GetId() int64 {
@@ -391,16 +456,9 @@ func (x *SubTaskResult) GetTaskId() int64 {
 	return 0
 }
 
-func (x *SubTaskResult) GetTaxiNode() int32 {
+func (x *SubTaskResult) GetJsonSubTask() []byte {
 	if x != nil {
-		return x.TaxiNode
-	}
-	return 0
-}
-
-func (x *SubTaskResult) GetCosts() []int32 {
-	if x != nil {
-		return x.Costs
+		return x.JsonSubTask
 	}
 	return nil
 }
@@ -414,7 +472,7 @@ type Ack struct {
 
 func (x *Ack) Reset() {
 	*x = Ack{}
-	mi := &file_grid_grid_proto_msgTypes[6]
+	mi := &file_grid_grid_proto_msgTypes[8]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -426,7 +484,7 @@ func (x *Ack) String() string {
 func (*Ack) ProtoMessage() {}
 
 func (x *Ack) ProtoReflect() protoreflect.Message {
-	mi := &file_grid_grid_proto_msgTypes[6]
+	mi := &file_grid_grid_proto_msgTypes[8]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -439,7 +497,7 @@ func (x *Ack) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use Ack.ProtoReflect.Descriptor instead.
 func (*Ack) Descriptor() ([]byte, []int) {
-	return file_grid_grid_proto_rawDescGZIP(), []int{6}
+	return file_grid_grid_proto_rawDescGZIP(), []int{8}
 }
 
 func (x *Ack) GetOk() bool {
@@ -453,21 +511,9 @@ var File_grid_grid_proto protoreflect.FileDescriptor
 
 const file_grid_grid_proto_rawDesc = "" +
 	"\n" +
-	"\x0fgrid/grid.proto\x12\x04grid\"&\n" +
-	"\vTaskRequest\x12\x17\n" +
-	"\atask_id\x18\x01 \x01(\x03R\x06taskId\"\xf2\x01\n" +
-	"\aSubTask\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\atask_id\x18\x02 \x01(\x03R\x06taskId\x12!\n" +
-	"\x05graph\x18\x03 \x01(\v2\v.grid.GraphR\x05graph\x12\x1d\n" +
-	"\n" +
-	"taxi_nodes\x18\x04 \x03(\x05R\ttaxiNodes\x12'\n" +
-	"\x0fpassenger_nodes\x18\x05 \x03(\x05R\x0epassengerNodes\x12\x1c\n" +
-	"\tdimension\x18\x06 \x01(\x05R\tdimension\x12\x1f\n" +
-	"\vstart_index\x18\a \x01(\x03R\n" +
-	"startIndex\x12\x14\n" +
-	"\x05count\x18\b \x01(\x03R\x05count\"q\n" +
-	"\x04Task\x12!\n" +
+	"\x0fgrid/grid.proto\x12\x04grid\"\x12\n" +
+	"\x10SubscribeRequest\"~\n" +
+	"\x11TaskTaxiPassenger\x12!\n" +
 	"\x05graph\x18\x01 \x01(\v2\v.grid.GraphR\x05graph\x12\x1d\n" +
 	"\n" +
 	"taxi_nodes\x18\x02 \x03(\x05R\ttaxiNodes\x12'\n" +
@@ -479,22 +525,31 @@ const file_grid_grid_proto_rawDesc = "" +
 	"\x04Edge\x12\x12\n" +
 	"\x04from\x18\x01 \x01(\x05R\x04from\x12\x0e\n" +
 	"\x02to\x18\x02 \x01(\x05R\x02to\x12\x16\n" +
-	"\x06weight\x18\x03 \x01(\x05R\x06weight\"k\n" +
+	"\x06weight\x18\x03 \x01(\x05R\x06weight\"&\n" +
+	"\vTaskRequest\x12\x17\n" +
+	"\atask_id\x18\x01 \x01(\x03R\x06taskId\"J\n" +
+	"\x04Task\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x1a\n" +
+	"\bjsonBase\x18\x02 \x01(\fR\bjsonBase\x12\x16\n" +
+	"\x06binary\x18\x03 \x01(\fR\x06binary\"T\n" +
+	"\aSubTask\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
+	"\atask_id\x18\x02 \x01(\x03R\x06taskId\x12 \n" +
+	"\vjsonSubTask\x18\x03 \x01(\fR\vjsonSubTask\"Z\n" +
 	"\rSubTaskResult\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x03R\x02id\x12\x17\n" +
-	"\atask_id\x18\x02 \x01(\x03R\x06taskId\x12\x1b\n" +
-	"\ttaxi_node\x18\x03 \x01(\x05R\btaxiNode\x12\x14\n" +
-	"\x05costs\x18\x04 \x03(\x05R\x05costs\"\x15\n" +
+	"\atask_id\x18\x02 \x01(\x03R\x06taskId\x12 \n" +
+	"\vjsonSubTask\x18\x03 \x01(\fR\vjsonSubTask\"\x15\n" +
 	"\x03Ack\x12\x0e\n" +
-	"\x02ok\x18\x01 \x01(\bR\x02ok2\xc5\x01\n" +
-	"\vGridService\x12(\n" +
-	"\aAddTask\x12\n" +
-	".grid.Task\x1a\x11.grid.TaskRequest\x12(\n" +
+	"\x02ok\x18\x01 \x01(\bR\x02ok2\x91\x02\n" +
+	"\vGridService\x125\n" +
+	"\aAddTask\x12\x17.grid.TaskTaxiPassenger\x1a\x11.grid.TaskRequest\x12(\n" +
 	"\aGetTask\x12\x11.grid.TaskRequest\x1a\n" +
 	".grid.Task\x122\n" +
 	"\n" +
 	"GetSubTask\x12\x11.grid.TaskRequest\x1a\r.grid.SubTask(\x010\x01\x12.\n" +
-	"\fSubmitResult\x12\x13.grid.SubTaskResult\x1a\t.grid.AckB\x10Z\x0egrid.v2;gridv2b\x06proto3"
+	"\fSubmitResult\x12\x13.grid.SubTaskResult\x1a\t.grid.Ack\x12=\n" +
+	"\x0eSubscribeTasks\x12\x16.grid.SubscribeRequest\x1a\x11.grid.TaskRequest0\x01B\x10Z\x0egrid.v2;gridv2b\x06proto3"
 
 var (
 	file_grid_grid_proto_rawDescOnce sync.Once
@@ -508,33 +563,36 @@ func file_grid_grid_proto_rawDescGZIP() []byte {
 	return file_grid_grid_proto_rawDescData
 }
 
-var file_grid_grid_proto_msgTypes = make([]protoimpl.MessageInfo, 7)
+var file_grid_grid_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_grid_grid_proto_goTypes = []any{
-	(*TaskRequest)(nil),   // 0: grid.TaskRequest
-	(*SubTask)(nil),       // 1: grid.SubTask
-	(*Task)(nil),          // 2: grid.Task
-	(*Graph)(nil),         // 3: grid.Graph
-	(*Edge)(nil),          // 4: grid.Edge
-	(*SubTaskResult)(nil), // 5: grid.SubTaskResult
-	(*Ack)(nil),           // 6: grid.Ack
+	(*SubscribeRequest)(nil),  // 0: grid.SubscribeRequest
+	(*TaskTaxiPassenger)(nil), // 1: grid.TaskTaxiPassenger
+	(*Graph)(nil),             // 2: grid.Graph
+	(*Edge)(nil),              // 3: grid.Edge
+	(*TaskRequest)(nil),       // 4: grid.TaskRequest
+	(*Task)(nil),              // 5: grid.Task
+	(*SubTask)(nil),           // 6: grid.SubTask
+	(*SubTaskResult)(nil),     // 7: grid.SubTaskResult
+	(*Ack)(nil),               // 8: grid.Ack
 }
 var file_grid_grid_proto_depIdxs = []int32{
-	3, // 0: grid.SubTask.graph:type_name -> grid.Graph
-	3, // 1: grid.Task.graph:type_name -> grid.Graph
-	4, // 2: grid.Graph.edges:type_name -> grid.Edge
-	2, // 3: grid.GridService.AddTask:input_type -> grid.Task
-	0, // 4: grid.GridService.GetTask:input_type -> grid.TaskRequest
-	0, // 5: grid.GridService.GetSubTask:input_type -> grid.TaskRequest
-	5, // 6: grid.GridService.SubmitResult:input_type -> grid.SubTaskResult
-	0, // 7: grid.GridService.AddTask:output_type -> grid.TaskRequest
-	2, // 8: grid.GridService.GetTask:output_type -> grid.Task
-	1, // 9: grid.GridService.GetSubTask:output_type -> grid.SubTask
-	6, // 10: grid.GridService.SubmitResult:output_type -> grid.Ack
-	7, // [7:11] is the sub-list for method output_type
-	3, // [3:7] is the sub-list for method input_type
-	3, // [3:3] is the sub-list for extension type_name
-	3, // [3:3] is the sub-list for extension extendee
-	0, // [0:3] is the sub-list for field type_name
+	2, // 0: grid.TaskTaxiPassenger.graph:type_name -> grid.Graph
+	3, // 1: grid.Graph.edges:type_name -> grid.Edge
+	1, // 2: grid.GridService.AddTask:input_type -> grid.TaskTaxiPassenger
+	4, // 3: grid.GridService.GetTask:input_type -> grid.TaskRequest
+	4, // 4: grid.GridService.GetSubTask:input_type -> grid.TaskRequest
+	7, // 5: grid.GridService.SubmitResult:input_type -> grid.SubTaskResult
+	0, // 6: grid.GridService.SubscribeTasks:input_type -> grid.SubscribeRequest
+	4, // 7: grid.GridService.AddTask:output_type -> grid.TaskRequest
+	5, // 8: grid.GridService.GetTask:output_type -> grid.Task
+	6, // 9: grid.GridService.GetSubTask:output_type -> grid.SubTask
+	8, // 10: grid.GridService.SubmitResult:output_type -> grid.Ack
+	4, // 11: grid.GridService.SubscribeTasks:output_type -> grid.TaskRequest
+	7, // [7:12] is the sub-list for method output_type
+	2, // [2:7] is the sub-list for method input_type
+	2, // [2:2] is the sub-list for extension type_name
+	2, // [2:2] is the sub-list for extension extendee
+	0, // [0:2] is the sub-list for field type_name
 }
 
 func init() { file_grid_grid_proto_init() }
@@ -548,7 +606,7 @@ func file_grid_grid_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_grid_grid_proto_rawDesc), len(file_grid_grid_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   7,
+			NumMessages:   9,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

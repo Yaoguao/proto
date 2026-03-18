@@ -6,7 +6,7 @@ option go_package = "grid.v2;gridv2";
 
 
 service GridService {
-  rpc AddTask(Task) returns (TaskRequest);
+  rpc AddTask(TaskTaxiPassenger) returns (TaskRequest);
 
   rpc GetTask(TaskRequest) returns (Task);
 
@@ -14,30 +14,13 @@ service GridService {
 
   rpc SubmitResult(SubTaskResult) returns (Ack);
 
+  rpc SubscribeTasks(SubscribeRequest) returns (stream TaskRequest);
 }
 
-
-message TaskRequest {
-  int64 task_id = 1;
+message SubscribeRequest {
 }
 
-message SubTask {
-  int64 id = 1;
-  int64 task_id = 2;
-
-  Graph graph = 3;
-
-  repeated int32 taxi_nodes = 4;
-  repeated int32 passenger_nodes = 5;
-
-  int32 dimension = 6;
-
-  int64 start_index = 7;
-  int64 count = 8;
-}
-
-
-message Task {
+message TaskTaxiPassenger {
   Graph graph = 1;
   repeated int32 taxi_nodes = 2;
   repeated int32 passenger_nodes = 3;
@@ -54,13 +37,46 @@ message Edge {
   int32 weight = 3;
 }
 
+message TaskRequest {
+  int64 task_id = 1;
+}
+
+message Task {
+  int64 id = 1;
+
+  bytes jsonBase = 2; // json с базовым задание, там и полный граф и все ноды
+  bytes binary = 3; // бинарник с кодом выполнения задачи
+}
+
+
+message SubTask {
+  int64 id = 1;
+  int64 task_id = 2;
+
+  /*
+  в этом json находится под задача, она без графа, что бы снизить загрузку. Чисто вол-во комбинация и батчи
+  что в нем:
+    int32 dimension;
+
+    int64 start_index;
+    int64 count ;
+   */
+  bytes jsonSubTask = 3;
+}
+
+
 
 message SubTaskResult {
   int64 id = 1;
   int64 task_id = 2;
 
-  int32 taxi_node = 3;
-  repeated int32 costs = 4;
+  /*
+  туу тоже возращаем json так как распределятор нечего не знает о задаче
+    что в нем:
+      int32 taxi_node = 3;
+      repeated int32 costs = 4;
+   */
+  bytes jsonSubTask = 3;
 }
 
 message Ack {
