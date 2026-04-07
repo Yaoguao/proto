@@ -4,7 +4,7 @@
 // 	protoc        v3.21.12
 // source: grid/grid.proto
 
-package gridv2
+package gridv3
 
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
@@ -58,12 +58,13 @@ func (*SubscribeRequest) Descriptor() ([]byte, []int) {
 }
 
 type TaskTaxiPassenger struct {
-	state          protoimpl.MessageState `protogen:"open.v1"`
-	Graph          *Graph                 `protobuf:"bytes,1,opt,name=graph,proto3" json:"graph,omitempty"`
-	TaxiNodes      []int32                `protobuf:"varint,2,rep,packed,name=taxi_nodes,json=taxiNodes,proto3" json:"taxi_nodes,omitempty"`
-	PassengerNodes []int32                `protobuf:"varint,3,rep,packed,name=passenger_nodes,json=passengerNodes,proto3" json:"passenger_nodes,omitempty"`
-	unknownFields  protoimpl.UnknownFields
-	sizeCache      protoimpl.SizeCache
+	state            protoimpl.MessageState `protogen:"open.v1"`
+	Graph            *Graph                 `protobuf:"bytes,1,opt,name=graph,proto3" json:"graph,omitempty"`
+	TaxiNodes        []int32                `protobuf:"varint,2,rep,packed,name=taxi_nodes,json=taxiNodes,proto3" json:"taxi_nodes,omitempty"`
+	PassengerNodes   []int32                `protobuf:"varint,3,rep,packed,name=passenger_nodes,json=passengerNodes,proto3" json:"passenger_nodes,omitempty"`
+	DestinationNodes []int32                `protobuf:"varint,4,rep,packed,name=destination_nodes,json=destinationNodes,proto3" json:"destination_nodes,omitempty"`
+	unknownFields    protoimpl.UnknownFields
+	sizeCache        protoimpl.SizeCache
 }
 
 func (x *TaskTaxiPassenger) Reset() {
@@ -113,6 +114,13 @@ func (x *TaskTaxiPassenger) GetTaxiNodes() []int32 {
 func (x *TaskTaxiPassenger) GetPassengerNodes() []int32 {
 	if x != nil {
 		return x.PassengerNodes
+	}
+	return nil
+}
+
+func (x *TaskTaxiPassenger) GetDestinationNodes() []int32 {
+	if x != nil {
+		return x.DestinationNodes
 	}
 	return nil
 }
@@ -276,8 +284,8 @@ func (x *TaskRequest) GetTaskId() int64 {
 type Task struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	JsonBase      []byte                 `protobuf:"bytes,2,opt,name=jsonBase,proto3" json:"jsonBase,omitempty"` // json с базовым задание, там и полный граф и все ноды
-	Binary        []byte                 `protobuf:"bytes,3,opt,name=binary,proto3" json:"binary,omitempty"`     // бинарник с кодом выполнения задачи
+	JsonBase      []byte                 `protobuf:"bytes,2,opt,name=jsonBase,proto3" json:"jsonBase,omitempty"`
+	Binary        []byte                 `protobuf:"bytes,3,opt,name=binary,proto3" json:"binary,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -334,15 +342,10 @@ func (x *Task) GetBinary() []byte {
 }
 
 type SubTask struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	Id     int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	TaskId int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	// что в нем:
-	// int32 dimension;
-	//
-	// int64 start_index;
-	// int64 count ;
-	JsonSubTask   []byte `protobuf:"bytes,3,opt,name=jsonSubTask,proto3" json:"jsonSubTask,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TaskId        int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	JsonSubTask   []byte                 `protobuf:"bytes,3,opt,name=jsonSubTask,proto3" json:"jsonSubTask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -399,13 +402,10 @@ func (x *SubTask) GetJsonSubTask() []byte {
 }
 
 type SubTaskResult struct {
-	state  protoimpl.MessageState `protogen:"open.v1"`
-	Id     int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	TaskId int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
-	// что в нем:
-	// int32 taxi_node = 3;
-	// repeated int32 costs = 4;
-	JsonSubTask   []byte `protobuf:"bytes,3,opt,name=jsonSubTask,proto3" json:"jsonSubTask,omitempty"`
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	TaskId        int64                  `protobuf:"varint,2,opt,name=task_id,json=taskId,proto3" json:"task_id,omitempty"`
+	JsonSubTask   []byte                 `protobuf:"bytes,3,opt,name=jsonSubTask,proto3" json:"jsonSubTask,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
@@ -840,12 +840,13 @@ var File_grid_grid_proto protoreflect.FileDescriptor
 const file_grid_grid_proto_rawDesc = "" +
 	"\n" +
 	"\x0fgrid/grid.proto\x12\x04grid\"\x12\n" +
-	"\x10SubscribeRequest\"~\n" +
+	"\x10SubscribeRequest\"\xab\x01\n" +
 	"\x11TaskTaxiPassenger\x12!\n" +
 	"\x05graph\x18\x01 \x01(\v2\v.grid.GraphR\x05graph\x12\x1d\n" +
 	"\n" +
 	"taxi_nodes\x18\x02 \x03(\x05R\ttaxiNodes\x12'\n" +
-	"\x0fpassenger_nodes\x18\x03 \x03(\x05R\x0epassengerNodes\"?\n" +
+	"\x0fpassenger_nodes\x18\x03 \x03(\x05R\x0epassengerNodes\x12+\n" +
+	"\x11destination_nodes\x18\x04 \x03(\x05R\x10destinationNodes\"?\n" +
 	"\x05Graph\x12\x14\n" +
 	"\x05nodes\x18\x01 \x01(\x05R\x05nodes\x12 \n" +
 	"\x05edges\x18\x02 \x03(\v2\n" +
@@ -892,16 +893,17 @@ const file_grid_grid_proto_rawDesc = "" +
 	"Assignment\x12\x1b\n" +
 	"\ttaxi_node\x18\x01 \x01(\x05R\btaxiNode\x12%\n" +
 	"\x0epassenger_node\x18\x02 \x01(\x05R\rpassengerNode\x12\x12\n" +
-	"\x04cost\x18\x03 \x01(\x03R\x04cost2\xc7\x02\n" +
-	"\vGridService\x125\n" +
-	"\aAddTask\x12\x17.grid.TaskTaxiPassenger\x1a\x11.grid.TaskRequest\x12(\n" +
+	"\x04cost\x18\x03 \x01(\x03R\x04cost2|\n" +
+	"\rClientService\x125\n" +
+	"\aAddTask\x12\x17.grid.TaskTaxiPassenger\x1a\x11.grid.TaskRequest\x124\n" +
+	"\rGetTaskResult\x12\x11.grid.TaskRequest\x1a\x10.grid.TaskResult2\xe0\x01\n" +
+	"\x11DispatcherService\x12(\n" +
 	"\aGetTask\x12\x11.grid.TaskRequest\x1a\n" +
-	".grid.Task\x122\n" +
+	".grid.Task\x12=\n" +
+	"\x0eSubscribeTasks\x12\x16.grid.SubscribeRequest\x1a\x11.grid.TaskRequest0\x01\x122\n" +
 	"\n" +
 	"GetSubTask\x12\x11.grid.TaskRequest\x1a\r.grid.SubTask(\x010\x01\x12.\n" +
-	"\fSubmitResult\x12\x13.grid.SubTaskResult\x1a\t.grid.Ack\x12=\n" +
-	"\x0eSubscribeTasks\x12\x16.grid.SubscribeRequest\x1a\x11.grid.TaskRequest0\x01\x124\n" +
-	"\rGetTaskResult\x12\x11.grid.TaskRequest\x1a\x10.grid.TaskResultB\x10Z\x0egrid.v2;gridv2b\x06proto3"
+	"\fSubmitResult\x12\x13.grid.SubTaskResult\x1a\t.grid.AckB\x10Z\x0egrid.v3;gridv3b\x06proto3"
 
 var (
 	file_grid_grid_proto_rawDescOnce sync.Once
@@ -939,18 +941,18 @@ var file_grid_grid_proto_depIdxs = []int32{
 	11, // 3: grid.TaskResult.completed:type_name -> grid.TaskCompleted
 	12, // 4: grid.TaskResult.failed:type_name -> grid.TaskFailed
 	13, // 5: grid.TaskCompleted.assignments:type_name -> grid.Assignment
-	1,  // 6: grid.GridService.AddTask:input_type -> grid.TaskTaxiPassenger
-	4,  // 7: grid.GridService.GetTask:input_type -> grid.TaskRequest
-	4,  // 8: grid.GridService.GetSubTask:input_type -> grid.TaskRequest
-	7,  // 9: grid.GridService.SubmitResult:input_type -> grid.SubTaskResult
-	0,  // 10: grid.GridService.SubscribeTasks:input_type -> grid.SubscribeRequest
-	4,  // 11: grid.GridService.GetTaskResult:input_type -> grid.TaskRequest
-	4,  // 12: grid.GridService.AddTask:output_type -> grid.TaskRequest
-	5,  // 13: grid.GridService.GetTask:output_type -> grid.Task
-	6,  // 14: grid.GridService.GetSubTask:output_type -> grid.SubTask
-	8,  // 15: grid.GridService.SubmitResult:output_type -> grid.Ack
-	4,  // 16: grid.GridService.SubscribeTasks:output_type -> grid.TaskRequest
-	9,  // 17: grid.GridService.GetTaskResult:output_type -> grid.TaskResult
+	1,  // 6: grid.ClientService.AddTask:input_type -> grid.TaskTaxiPassenger
+	4,  // 7: grid.ClientService.GetTaskResult:input_type -> grid.TaskRequest
+	4,  // 8: grid.DispatcherService.GetTask:input_type -> grid.TaskRequest
+	0,  // 9: grid.DispatcherService.SubscribeTasks:input_type -> grid.SubscribeRequest
+	4,  // 10: grid.DispatcherService.GetSubTask:input_type -> grid.TaskRequest
+	7,  // 11: grid.DispatcherService.SubmitResult:input_type -> grid.SubTaskResult
+	4,  // 12: grid.ClientService.AddTask:output_type -> grid.TaskRequest
+	9,  // 13: grid.ClientService.GetTaskResult:output_type -> grid.TaskResult
+	5,  // 14: grid.DispatcherService.GetTask:output_type -> grid.Task
+	4,  // 15: grid.DispatcherService.SubscribeTasks:output_type -> grid.TaskRequest
+	6,  // 16: grid.DispatcherService.GetSubTask:output_type -> grid.SubTask
+	8,  // 17: grid.DispatcherService.SubmitResult:output_type -> grid.Ack
 	12, // [12:18] is the sub-list for method output_type
 	6,  // [6:12] is the sub-list for method input_type
 	6,  // [6:6] is the sub-list for extension type_name
@@ -976,7 +978,7 @@ func file_grid_grid_proto_init() {
 			NumEnums:      0,
 			NumMessages:   14,
 			NumExtensions: 0,
-			NumServices:   1,
+			NumServices:   2,
 		},
 		GoTypes:           file_grid_grid_proto_goTypes,
 		DependencyIndexes: file_grid_grid_proto_depIdxs,

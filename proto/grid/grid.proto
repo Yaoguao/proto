@@ -2,30 +2,27 @@ syntax = "proto3";
 
 package grid;
 
-option go_package = "grid.v2;gridv2";
+option go_package = "grid.v3;gridv3";
 
-
-service GridService {
+service ClientService {
   rpc AddTask(TaskTaxiPassenger) returns (TaskRequest);
-
-  rpc GetTask(TaskRequest) returns (Task);
-
-  rpc GetSubTask(stream TaskRequest) returns (stream SubTask);
-
-  rpc SubmitResult(SubTaskResult) returns (Ack);
-
-  rpc SubscribeTasks(SubscribeRequest) returns (stream TaskRequest);
-
   rpc GetTaskResult(TaskRequest) returns (TaskResult);
 }
 
-message SubscribeRequest {
+service DispatcherService {
+  rpc GetTask(TaskRequest) returns (Task);
+  rpc SubscribeTasks(SubscribeRequest) returns (stream TaskRequest);
+  rpc GetSubTask(stream TaskRequest) returns (stream SubTask);
+  rpc SubmitResult(SubTaskResult) returns (Ack);
 }
+
+message SubscribeRequest {}
 
 message TaskTaxiPassenger {
   Graph graph = 1;
   repeated int32 taxi_nodes = 2;
   repeated int32 passenger_nodes = 3;
+  repeated int32 destination_nodes = 4;
 }
 
 message Graph {
@@ -46,36 +43,21 @@ message TaskRequest {
 message Task {
   int64 id = 1;
 
-  bytes jsonBase = 2; // json с базовым задание, там и полный граф и все ноды
-  bytes binary = 3; // бинарник с кодом выполнения задачи
+  bytes jsonBase = 2;
+  bytes binary = 3;
 }
-
 
 message SubTask {
   int64 id = 1;
   int64 task_id = 2;
 
-  /*
-  что в нем:
-    int32 dimension;
-
-    int64 start_index;
-    int64 count ;
-   */
   bytes jsonSubTask = 3;
 }
-
-
 
 message SubTaskResult {
   int64 id = 1;
   int64 task_id = 2;
 
-  /*
-    что в нем:
-      int32 taxi_node = 3;
-      repeated int32 costs = 4;
-   */
   bytes jsonSubTask = 3;
 }
 
