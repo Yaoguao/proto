@@ -15,6 +15,8 @@ service GridService {
   rpc SubmitResult(SubTaskResult) returns (Ack);
 
   rpc SubscribeTasks(SubscribeRequest) returns (stream TaskRequest);
+
+  rpc GetTaskResult(TaskRequest) returns (TaskResult);
 }
 
 message SubscribeRequest {
@@ -54,7 +56,6 @@ message SubTask {
   int64 task_id = 2;
 
   /*
-  в этом json находится под задача, она без графа, что бы снизить загрузку. Чисто вол-во комбинация и батчи
   что в нем:
     int32 dimension;
 
@@ -71,7 +72,6 @@ message SubTaskResult {
   int64 task_id = 2;
 
   /*
-  туу тоже возращаем json так как распределятор нечего не знает о задаче
     что в нем:
       int32 taxi_node = 3;
       repeated int32 costs = 4;
@@ -81,4 +81,35 @@ message SubTaskResult {
 
 message Ack {
   bool ok = 1;
+}
+
+message TaskResult {
+  int64 task_id = 1;
+  oneof status {
+    TaskPending pending = 2;
+    TaskCompleted completed = 3;
+    TaskFailed failed = 4;
+  }
+}
+
+message TaskPending {
+  int32 total_subtasks = 1;
+  int32 completed_subtasks = 2;
+  string message = 3;
+}
+
+message TaskCompleted {
+  int64 best_cost = 1;
+  repeated Assignment assignments = 2;
+  int64 processed_permutations = 3;
+}
+
+message TaskFailed {
+  string error = 1;
+}
+
+message Assignment {
+  int32 taxi_node = 1;
+  int32 passenger_node = 2;
+  int64 cost = 3;
 }

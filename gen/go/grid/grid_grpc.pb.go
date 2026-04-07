@@ -24,6 +24,7 @@ const (
 	GridService_GetSubTask_FullMethodName     = "/grid.GridService/GetSubTask"
 	GridService_SubmitResult_FullMethodName   = "/grid.GridService/SubmitResult"
 	GridService_SubscribeTasks_FullMethodName = "/grid.GridService/SubscribeTasks"
+	GridService_GetTaskResult_FullMethodName  = "/grid.GridService/GetTaskResult"
 )
 
 // GridServiceClient is the client API for GridService service.
@@ -35,6 +36,7 @@ type GridServiceClient interface {
 	GetSubTask(ctx context.Context, opts ...grpc.CallOption) (grpc.BidiStreamingClient[TaskRequest, SubTask], error)
 	SubmitResult(ctx context.Context, in *SubTaskResult, opts ...grpc.CallOption) (*Ack, error)
 	SubscribeTasks(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[TaskRequest], error)
+	GetTaskResult(ctx context.Context, in *TaskRequest, opts ...grpc.CallOption) (*TaskResult, error)
 }
 
 type gridServiceClient struct {
@@ -107,6 +109,16 @@ func (c *gridServiceClient) SubscribeTasks(ctx context.Context, in *SubscribeReq
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type GridService_SubscribeTasksClient = grpc.ServerStreamingClient[TaskRequest]
 
+func (c *gridServiceClient) GetTaskResult(ctx context.Context, in *TaskRequest, opts ...grpc.CallOption) (*TaskResult, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TaskResult)
+	err := c.cc.Invoke(ctx, GridService_GetTaskResult_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // GridServiceServer is the server API for GridService service.
 // All implementations must embed UnimplementedGridServiceServer
 // for forward compatibility.
@@ -116,6 +128,7 @@ type GridServiceServer interface {
 	GetSubTask(grpc.BidiStreamingServer[TaskRequest, SubTask]) error
 	SubmitResult(context.Context, *SubTaskResult) (*Ack, error)
 	SubscribeTasks(*SubscribeRequest, grpc.ServerStreamingServer[TaskRequest]) error
+	GetTaskResult(context.Context, *TaskRequest) (*TaskResult, error)
 	mustEmbedUnimplementedGridServiceServer()
 }
 
@@ -140,6 +153,9 @@ func (UnimplementedGridServiceServer) SubmitResult(context.Context, *SubTaskResu
 }
 func (UnimplementedGridServiceServer) SubscribeTasks(*SubscribeRequest, grpc.ServerStreamingServer[TaskRequest]) error {
 	return status.Error(codes.Unimplemented, "method SubscribeTasks not implemented")
+}
+func (UnimplementedGridServiceServer) GetTaskResult(context.Context, *TaskRequest) (*TaskResult, error) {
+	return nil, status.Error(codes.Unimplemented, "method GetTaskResult not implemented")
 }
 func (UnimplementedGridServiceServer) mustEmbedUnimplementedGridServiceServer() {}
 func (UnimplementedGridServiceServer) testEmbeddedByValue()                     {}
@@ -234,6 +250,24 @@ func _GridService_SubscribeTasks_Handler(srv interface{}, stream grpc.ServerStre
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type GridService_SubscribeTasksServer = grpc.ServerStreamingServer[TaskRequest]
 
+func _GridService_GetTaskResult_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TaskRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(GridServiceServer).GetTaskResult(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: GridService_GetTaskResult_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(GridServiceServer).GetTaskResult(ctx, req.(*TaskRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // GridService_ServiceDesc is the grpc.ServiceDesc for GridService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -252,6 +286,10 @@ var GridService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SubmitResult",
 			Handler:    _GridService_SubmitResult_Handler,
+		},
+		{
+			MethodName: "GetTaskResult",
+			Handler:    _GridService_GetTaskResult_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
