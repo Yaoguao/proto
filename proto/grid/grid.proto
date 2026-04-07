@@ -93,5 +93,6 @@ message TaskFailed {
 message Assignment {
   int32 taxi_node = 1;
   int32 passenger_node = 2;
-  int64 cost = 3;
+  int32 destination_node = 3;
+  int64 cost = 4;
 }

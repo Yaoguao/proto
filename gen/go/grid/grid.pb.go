@@ -776,12 +776,13 @@ func (x *TaskFailed) GetError() string {
 }
 
 type Assignment struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TaxiNode      int32                  `protobuf:"varint,1,opt,name=taxi_node,json=taxiNode,proto3" json:"taxi_node,omitempty"`
-	PassengerNode int32                  `protobuf:"varint,2,opt,name=passenger_node,json=passengerNode,proto3" json:"passenger_node,omitempty"`
-	Cost          int64                  `protobuf:"varint,3,opt,name=cost,proto3" json:"cost,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state           protoimpl.MessageState `protogen:"open.v1"`
+	TaxiNode        int32                  `protobuf:"varint,1,opt,name=taxi_node,json=taxiNode,proto3" json:"taxi_node,omitempty"`
+	PassengerNode   int32                  `protobuf:"varint,2,opt,name=passenger_node,json=passengerNode,proto3" json:"passenger_node,omitempty"`
+	DestinationNode int32                  `protobuf:"varint,3,opt,name=destination_node,json=destinationNode,proto3" json:"destination_node,omitempty"`
+	Cost            int64                  `protobuf:"varint,4,opt,name=cost,proto3" json:"cost,omitempty"`
+	unknownFields   protoimpl.UnknownFields
+	sizeCache       protoimpl.SizeCache
 }
 
 func (x *Assignment) Reset() {
@@ -824,6 +825,13 @@ func (x *Assignment) GetTaxiNode() int32 {
 func (x *Assignment) GetPassengerNode() int32 {
 	if x != nil {
 		return x.PassengerNode
+	}
+	return 0
+}
+
+func (x *Assignment) GetDestinationNode() int32 {
+	if x != nil {
+		return x.DestinationNode
 	}
 	return 0
 }
@@ -888,12 +896,13 @@ const file_grid_grid_proto_rawDesc = "" +
 	"\x16processed_permutations\x18\x03 \x01(\x03R\x15processedPermutations\"\"\n" +
 	"\n" +
 	"TaskFailed\x12\x14\n" +
-	"\x05error\x18\x01 \x01(\tR\x05error\"d\n" +
+	"\x05error\x18\x01 \x01(\tR\x05error\"\x8f\x01\n" +
 	"\n" +
 	"Assignment\x12\x1b\n" +
 	"\ttaxi_node\x18\x01 \x01(\x05R\btaxiNode\x12%\n" +
-	"\x0epassenger_node\x18\x02 \x01(\x05R\rpassengerNode\x12\x12\n" +
-	"\x04cost\x18\x03 \x01(\x03R\x04cost2|\n" +
+	"\x0epassenger_node\x18\x02 \x01(\x05R\rpassengerNode\x12)\n" +
+	"\x10destination_node\x18\x03 \x01(\x05R\x0fdestinationNode\x12\x12\n" +
+	"\x04cost\x18\x04 \x01(\x03R\x04cost2|\n" +
 	"\rClientService\x125\n" +
 	"\aAddTask\x12\x17.grid.TaskTaxiPassenger\x1a\x11.grid.TaskRequest\x124\n" +
 	"\rGetTaskResult\x12\x11.grid.TaskRequest\x1a\x10.grid.TaskResult2\xe0\x01\n" +
